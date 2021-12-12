@@ -1,0 +1,81 @@
+// python这题写起来比较简单
+def quiz1():
+    ans = []
+    for i in range (1,10):
+        for j in range (0,10):
+            for k in range (0,10):
+                tmp =  i*100+j*10+k
+                
+                if i**3 + j**3 + k**3 == tmp:
+                    ans.append(tmp)
+    return ans
+
+
+
+class Solution {
+    public int majorityElement(int[] nums) {
+        HashMap<Integer,Integer> map = new HashMap<>();
+        int n = nums.length/2;
+        for (int i:nums){
+            map.put(i,map.getOrDefault(i,0)+1);
+        }
+        for (int key:map.keySet()){
+            if (map.get(key)>n) return key;
+        }
+        return -1;
+    }
+}
+
+
+class Solution {
+    public boolean isValid(String s) {
+        if (s.length()%2!=0) return false;
+        if (s.length() == 0) return false;
+        Stack<Character> st = new Stack<>();
+        for (Character c : s.toCharArray()){
+            if (c == '(') st.push(')');
+            else if (c == '[') st.push(']');
+            else if (c == '{') st.push('}');
+            else if (st.empty()) return false;
+            else{
+                char cc = st.pop();
+                if (cc!=c) return false;
+            }
+        }
+        return st.empty();
+    }
+}
+
+
+
+class Solution {
+    public String largestNumber(int[] nums) {
+        String res = "";
+        if (nums.length==0) return res;
+        if (nums.length==1) return res+nums[0];
+        for (int i = 0; i<nums.length;i++){
+            for (int j = i+1;j<nums.length;j++){
+                int tmp = nums[i];
+                boolean change = false;
+                String n1 = ""+nums[i]+ nums[j];
+                String n2 = ""+nums[j]+ nums[i];
+                for (int x = 0; x<n1.length();x++){
+                    int a = Integer.parseInt(""+n1.charAt(x));
+                    int b = Integer.parseInt(""+n2.charAt(x));
+                    if (a<b) {
+                        change = true;
+                        break;
+                    }else if (a>b){
+                        break;
+                    }
+                }
+                if (change) {
+                    nums[i] = nums[j];
+                    nums[j] = tmp;
+                }
+            }
+        }
+        if (nums[0]==0) return "0";
+        for (int i : nums) res+=i;
+        return res;
+    }

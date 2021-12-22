@@ -1,0 +1,75 @@
+1.
+class Solution:
+    def findLUSlength(self, a: str, b: str) -> int:
+        if len(a)>=len(b):
+            c,d = a,b
+        else:
+            d,c = a,b
+        max_length = -1
+        for i in range (len(c)):
+            for j in range(i+1,len(c)+1):
+                tmp = c[i:j]
+                if tmp not in d:
+                    max_length = max(max_length,len(tmp))
+        return max_length
+
+2.
+class Solution:
+    def reverseWords(self, s: str) -> str:
+        ls = []
+        l = 0
+        r = 0
+        while r<len(s):
+            if not s[r].isalnum():
+                if l!=r:
+                    tmp = s[l:r]
+                    ls.append(tmp)
+                r+=1
+                l = r
+            else:
+                r+=1
+        if l!=r:
+            ls.append(s[l:r])
+        ls.reverse()
+        ans = ""
+        for w in range(len(ls)):
+            if w==len(ls)-1:
+                ans+=ls[w]
+            else:
+                ans+=ls[w]+" "
+        return ans
+
+3.
+class Solution:
+    def findMin(self, nums: List[int]) -> int:
+        for i in range (1,len(nums)):
+            if nums[i-1]>nums[i]:
+                return nums[i]
+        return nums[0]
+
+4.
+class Solution:
+    def generate(self, numRows: int) -> List[List[int]]:
+        ans = [[1]]
+        for i in range(1,numRows):
+            tmp = []
+            for j in range (i+1):
+                if j==0 or j==i:
+                    tmp.append(1)
+                else:
+                    tmp.append(ans[i-1][j-1]+ans[i-1][j])
+            ans.append(tmp)
+        return ans
+
+5.
+class Solution:
+    def intToRoman(self, num: int) -> str:
+        values=[1000,900,500,400,100,90,50,40,10,9,5,4,1]
+        reps=["M","CM","D","CD","C","XC","L","XL","X","IX","V","IV","I"]
+        res = ""
+        for i in range (13):
+            while num >= values[i]:
+                num -= values[i]
+                res += reps[i]
+
+        return res;

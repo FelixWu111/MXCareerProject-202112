@@ -1,0 +1,52 @@
+1.
+def Q1(self, s: str) -> str:
+        l_a = "aeiouAEIOU"
+        stack = []
+        for a in s:
+            if a in l_a:
+                stack.append(a)
+        if stack==[]:
+            return s
+        list_s = list(s)
+        for i in range(len(list_s)):
+            if list_s[i] in l_a:
+                tmp = stack.pop()
+                list_s[i] = tmp
+        return "".join(list_s)
+
+2.
+def Q2(self, numbers: List[int], target: int) -> List[int]:
+        ans = []
+        left = 0
+        right = len(numbers)-1
+        while left<right:
+            if numbers[left]+numbers[right]==target:
+                ans = [left+1,right+1]
+                break
+            elif numbers[left]+numbers[right]<target:
+                left+=1
+            else:
+                right-=1
+        return ans
+
+3.
+def Q3(self, head: ListNode) -> ListNode:
+        if head==None or head.next==None:
+            return head
+        dummy = ListNode(0)
+        dummy.next = head
+        lastvisit = dummy.next
+        cur = lastvisit.next
+        while cur!=None:
+            if lastvisit.val<=cur.val:
+                lastvisit = cur
+            else:
+                pre = dummy
+                while pre.next.val<=cur.val:
+                    pre = pre.next
+                tmp = cur.next
+                cur.next = pre.next
+                pre.next = cur
+                lastvisit.next = tmp
+            cur = lastvisit.next
+        return dummy.next

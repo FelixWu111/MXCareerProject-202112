@@ -1,0 +1,87 @@
+1.
+def simplifyPath(self, path: str) -> str:
+        path_l = path.split('/')
+        stack = []
+        for x in path_l:
+            if x==".." and stack!=[]:
+                stack.pop()
+            elif x!="." and x!="" and x!="..":
+                stack.append(x)
+        return "/"+"/".join(stack)
+
+2.
+def restoreIpAddresses(self, s: str) -> List[str]:
+        self.res = []
+        self.dfs(s,0,"",0)
+        return self.res
+    
+    def dfs(self,s,i,num,l):
+        if l>4:
+            return
+        if l==4 and len(num) == len(s)+3:
+            self.res.append(num[:])
+        for j in range(i+1,i+4):
+            if j<=len(s):
+                n = s[i:j]
+                if int(n)>=0 and int(n)<=255 and str(int(n)) == n:
+                    tmp = num
+                    if l<3:
+                        num+=n+"."
+                    else:
+                        num+=n
+                    self.dfs(s,j,num,l+1)
+                    num = tmp
+
+3.
+def maxSatisfied(self, customers: List[int], grumpy: List[int], minutes: int) -> int:
+        sum_n = 0
+        l = len(grumpy)
+        for i in range(l):
+            if grumpy[i]==0:
+                sum_n+=customers[i]
+        tmp = 0
+        for i in range(minutes):
+            tmp += customers[i] * grumpy[i]
+        max_m = tmp
+        for i in range(minutes,l):
+            tmp += customers[i] * grumpy[i] - customers[i - minutes] * grumpy[i - minutes]
+            max_m = max(max_m,tmp)
+        return sum_n+max_m
+
+4.
+def maxScore(self, cardPoints: List[int], k: int) -> int:
+        l = len(cardPoints)
+        sum_c = 0
+        total = sum(cardPoints)
+        for i in range(l-k):
+            sum_c+=cardPoints[i]
+        ans = sum_c
+        for i in range(l-k,l):
+            sum_c = sum_c-cardPoints[i-l+k]+cardPoints[i]
+            ans = min(ans,sum_c)
+        return total-ans
+
+5.
+def splitListToParts(self, head: ListNode, k: int) -> List[ListNode]:
+        node = head
+        l = 0
+        while node!=None:
+            l += 1
+            node = node.next
+        n = l//k
+        re = l%k
+        res = [None] * k
+        current = head
+        i=0
+        while i < k and current!=None:
+            res[i] = current
+            size = n
+            if i<re:
+                size += 1
+            for j in range(size - 1):
+                current = current.next
+            tmp = current.next
+            current.next = None
+            current = tmp
+            i += 1
+        return res

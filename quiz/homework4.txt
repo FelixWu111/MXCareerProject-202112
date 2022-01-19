@@ -1,0 +1,112 @@
+1.
+class MyStack:
+
+    def __init__(self):
+        self.q1 = []
+        self.q2 = []
+
+
+    def push(self, x: int) -> None:
+        self.q2.append(x)
+        while self.q1 != []:
+            self.q2.append(self.q1.pop(0))
+        self.q1, self.q2 = self.q2, self.q1
+
+
+    def pop(self) -> int:
+        return self.q1.pop(0)
+
+    def top(self) -> int:
+        return self.q1[0]
+
+    def empty(self) -> bool:
+        return self.q1==[]
+
+2.
+def checkValidString(self, s: str) -> bool:
+        stack1 = []
+        stack2 = []
+        for i in range(len(s)):
+            if s[i] == '(':
+                stack1.append(i)
+            elif s[i] == '*':
+                stack2.append(i)
+            elif s[i] == ')':
+                if stack1!=[]:
+                    stack1.pop()
+                elif stack2!=[]:
+                    stack2.pop()
+                else:
+                    return False
+        while stack1!=[] and stack2!=[]:
+            tmp1 = stack1.pop()
+            tmp2 = stack2.pop()
+            if tmp1>tmp2:
+                return False
+        return stack1==[]
+
+3.
+def removeDuplicateLetters(self, s: str) -> str:
+        num = [0] * 26
+        for x in s:
+            num[ord(x)-ord('a')]+=1
+        stack = []
+        for x in s:
+            tmp = ord(x)-ord('a')
+            if x not in stack:
+                while stack!=[] and stack[-1]>x and num[ord(stack[-1])-ord('a')] > 0:
+                        stack.pop()         
+                stack.append(x)
+            num[tmp] -= 1
+        ans = "".join(stack)
+        return ans
+
+4.
+def movingCount(self, m: int, n: int, k: int) -> int:
+        self.ans = 0
+        grid = [[0] * m for _ in range(n)]
+        self.dfs(grid, k, 0, 0)
+        return self.ans
+
+    def dfs(self, grid, k, i, j):
+        if i<0 or j<0 or i>= len(grid) or j>= len(grid[0]) or grid[i][j] == 1:
+            return
+        if self.helper(i)+self.helper(j)>k:
+            return
+        else:
+            grid[i][j] = 1
+            self.ans+=1
+            self.dfs(grid, k, i+1, j)
+            self.dfs(grid, k, i-1, j)
+            self.dfs(grid, k, i, j+1)
+            self.dfs(grid, k, i, j-1)
+
+    def helper(self, n):
+        s = str(n)
+        ans = 0
+        for c in s:
+            ans+=int(c)
+        return ans
+
+5.
+def maxAreaOfIsland(self, grid: List[List[int]]) -> int:
+        ans = 0
+        m = len(grid)
+        n = len(grid[0])
+        for i in range(m):
+            for j in range(n):
+                if grid[i][j]==1:
+                    self.tmp = 0
+                    self.dfs(grid,i,j)
+                    ans = max(ans,self.tmp)
+        return ans
+
+    def dfs(self,grid,i,j):
+        if i<0 or j<0 or i>=len(grid) or j>=len(grid[0]) or grid[i][j] == 0:
+            return
+        grid[i][j]=0
+        self.tmp += 1
+        self.dfs(grid,i+1,j)
+        self.dfs(grid,i-1,j)
+        self.dfs(grid,i,j+1)
+        self.dfs(grid,i,j-1)

@@ -1,0 +1,45 @@
+1.
+public int findUnsortedSubarray(int[] nums) {
+        int left= 0, right = 0; 
+        int max = left;   
+        for(int i = 1; i<nums.length; i++){
+            if(nums[i] >= nums[max]){
+               max = i;
+            }else if(nums[i] < nums[max]){
+                right = i;
+            }
+        }
+        int min = right; 
+        for(int i = right-1; i>=0;i--){
+            if(nums[i] <= nums[min]){
+                min = i;
+            }else if(nums[i] > nums[min]){
+                left = i;
+            }
+        }
+        return right==left ? 0: right-left+1;
+    }
+
+2.
+public boolean searchMatrix(int[][] matrix, int target) {
+        if (matrix.length==0) return false;
+        int m = matrix.length, n = matrix[0].length;
+        if (n==0) return false;
+        int y = m-1;
+        for (int i = 0; i< m;i++){
+            if (matrix[i][0]==target){
+                return true;
+            }else if (matrix[i][0]>target){
+                y = i==0?0:i-1;
+                break;
+            }
+        }
+        for (int i = 0; i<n;i++){
+            if (matrix[y][i]==target) return true;
+        }
+        return false;
+    }
+
+3.
+
+
